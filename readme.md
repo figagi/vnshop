@@ -35,6 +35,8 @@ vnshop
     05.使用express连接mongodb
     07.使用express通过查询mongodb数据实现goods商品列表接口
     08.使用vue请求server的goods的api，并且配置跨域成功访问
+    10.商品按照价格排序的接口开发
+    11.商品安装价格排序的vuejs前端实现
 
 ## day3
 

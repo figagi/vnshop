@@ -27,12 +27,18 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/list', function(req, res, next) {
-    Goods.find({}, function(err, doc) {
+    let sort = req.param('sort');
+
+    let goodsModel = Goods.find({});
+    goodsModel.sort({ 'salePrice': sort });
+
+    goodsModel.exec({}, function(err, doc) {
         if (err) {
             res.json({ status: "1", msg: err.message })
         } else {
             res.json({ status: '0', msg: '', result: doc })
         }
     })
+
 })
 module.exports = router;
