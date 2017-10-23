@@ -81,13 +81,13 @@
         ,
         methods:{
             getGoodsList(){
-                axios.get('http://easy-mock.com/mock/59664d4d58618039284c7710/example/goods/list').then(res=>{
-                    console.log(res);
-                    this.goods = res.data.data;
-                })
-                // axios.get('goods').then(res=>{
+                // axios.get('http://easy-mock.com/mock/59664d4d58618039284c7710/example/goods/list').then(res=>{
+                //     console.log(res);
                 //     this.goods = res.data.data;
                 // })
+                axios.get('/goods/list').then(res=>{
+                    this.goods = res.data.result;
+                })
             }
         }
     }

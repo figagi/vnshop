@@ -26,12 +26,13 @@ const proxyTable = config.dev.proxyTable
 const app = express()
 const compiler = webpack(webpackConfig)
 
-var goodsData = require('../mock/mock-goods.json');
-var router = express.Router();
-router.get("/goods", function(req, res, next) {
-    res.json(goodsData);
-})
-app.use(router);
+// 2017年10月23日 14:50:58 stark 修改，注释掉下面的api，从此改为后端3000端口 server服务
+// var goodsData = require('../mock/mock-goods.json');
+// var router = express.Router();
+// router.get("/goods", function(req, res, next) {
+//     res.json(goodsData);
+// })
+// app.use(router);
 
 const devMiddleware = require('webpack-dev-middleware')(compiler, {
     publicPath: webpackConfig.output.publicPath,
