@@ -27,9 +27,43 @@ router.get('/', function(req, res, next) {
 })
 
 router.get('/list', function(req, res, next) {
-    let sort = req.param('sort');
+    // 根据前端传过来的数值，判断价格区间，然后去数据库里面查询
+    let priceLevel = req.param('priceLevel');
 
-    let goodsModel = Goods.find({});
+    let sort = req.param('sort');
+    let priceGt = '',
+        priceLte = '';
+    let param = {};
+    if (priceLevel != 'all') {
+        switch (priceLevel) {
+            case '0':
+                priceGt = 0;
+                priceLte = 100;
+                break;
+            case '1':
+                priceGt = 100;
+                priceLte = 500;
+                break;
+            case '2':
+                priceGt = 500;
+                priceLte = 1000;
+                break;
+            case '3':
+                priceGt = 1000;
+                priceLte = 2000;
+                break;
+        }
+
+        param = {
+            salePrice: {
+                $gt: priceGt,
+                $lte: priceLte
+            }
+        }
+    }
+
+
+    let goodsModel = Goods.find(param);
     goodsModel.sort({ 'salePrice': sort });
 
     goodsModel.exec({}, function(err, doc) {
@@ -41,4 +75,5 @@ router.get('/list', function(req, res, next) {
     })
 
 })
+
 module.exports = router;
