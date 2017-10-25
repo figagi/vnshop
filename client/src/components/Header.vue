@@ -86,10 +86,10 @@
     export default {
         data(){
             return{
-                nickName:'',
-                userName:'',
-                userPwd:'',
-                loginModalFlag:false
+                nickName:'', // 显示的昵称
+                userName:'', // 输入的用户名
+                userPwd:'', // 输入的用户密码
+                loginModalFlag:false  // 控制模态框和遮罩层的显示隐藏
             }
         },
         methods:{
