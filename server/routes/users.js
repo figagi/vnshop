@@ -7,6 +7,9 @@ router.get('/', function(req, res, next) {
     res.send('hi shudong.wang stark');
 });
 
+
+
+// 登录接口
 router.post('/login', function(req, res, next) {
     let param = {
         userName: req.body.userName,
@@ -41,6 +44,50 @@ router.post('/login', function(req, res, next) {
                     }
                 })
             }
+        }
+    })
+})
+
+// 检查是否登录
+router.post('/checkLogin', function(req, res, next) {
+    // 使用cookies读取 cookies
+    if (req.cookies.userId) {
+        res.json({
+            status: '0',
+            result: req.cookies.userName
+        })
+    } else {
+        res.json({
+            status: 1,
+            msg: '未登录',
+            result: ''
+        })
+    }
+})
+
+// 退出登录
+router.post('/logout', function(req, res, next) {
+    res.cookie("userId", "", {
+        path: '/',
+        maxAge: -1
+    })
+
+    res.json({
+        status: 0,
+        msg: '',
+        result: '退出成功'
+    })
+})
+
+router.post("/cartList", function(req, res, next) {
+    let userId = req.cookies.userId;
+    User.findOne({ userId: userId }, function(err, doc) {
+        if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
+            res.json({
+                status: 0,
+                msg: '',
+                result: doc.cartList
+            })
         }
     })
 })

@@ -23,6 +23,28 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function(req, res, next) {
+    // console.log(1111);
+    if (req.cookies.userId) {
+        next()
+    } else {
+        if (
+            req.originalUrl == '/users/login' ||
+            req.path == '/goods/list' ||
+            req.originalUrl == '/users/checkLogin'
+        ) {
+            next()
+        } else {
+            res.json({
+                status: '1',
+                msg: '当前用户未登录',
+                result: ''
+            })
+        }
+    }
+})
+
+
 app.use('/', index);
 app.use('/users', users);
 app.use('/goods', goods);
