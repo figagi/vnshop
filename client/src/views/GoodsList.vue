@@ -15,7 +15,7 @@
                 <div class="filter stopPop" id="filter">
                     <dl class="filter-price">
                         <dt>Price:</dt>
-                        <dd><a href="javascript:void(0)">All</a></dd>
+                        <dd><a href="javascript:void(0)" :class="{'cur':priceChecked == 'all'}"  @click="setPriceFilter('all')">All</a></dd>
                         <dd v-for="(item,index) in priceFilter" :key="index" class="cur">
                             <a @click="setPriceFilter(index)" :class="{'cur': priceChecked == index}" href="javascript:void(0)">{{item.startPrice}} - {{item.endPrice}}</a>
                         </dd>
@@ -129,6 +129,7 @@
             },
             setPriceFilter(index){
                 this.priceChecked = index;
+                this.page = 1; //设置了分页后在这每次筛选价格重置为第一页
                 this.getGoodsList();
             },
             loadMore: function() {

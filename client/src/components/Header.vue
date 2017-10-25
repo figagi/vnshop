@@ -35,19 +35,74 @@
                 </a>
             </div>
             <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
-                <a class="link" href="user.php" rel="nofollow">登录</a>
-                <span class="sep">|</span>
-                <a class="link" href="user.php?act=register" rel="nofollow">注册</a>
+                <span v-text="nickName" > </span>
+                <a class="link"  rel="nofollow" v-if="!nickName" @click="loginModalFlag = true">登录</a>
+                <!-- <span class="sep">|</span> -->
+                <!-- <a class="link" href="user.php?act=register"  v-if="!nickName" rel="nofollow">注册</a> -->
             </div>
             <!-- </div> -->
         </div>
         <div id="J_navMenu" class="header-nav-menu" style="display: none;">
             <div class="container"></div>
         </div>
+
+
+        <!-- 登录框 -->
+      <div class="md-modal modal-msg md-modal-transition " :class="{'md-show':loginModalFlag}">
+        <div class="md-modal-inner">
+          <div class="md-top">
+            <div class="md-title" >登录</div>
+            <button class="md-close" @click="loginModalFlag = false">关闭</button>
+          </div>
+          <div class="md-content">
+            <div class="confirm-tips">
+              <div class="error-wrap">
+                <span class="error error-show" >用户名或密码错误</span>
+              </div>
+              <ul>
+                <li class="regi_form_input">
+                  <input type="text" tabindex="1" name="loginname" v-model="userName" placeholder="User Name" data-type="loginname" class="regi_login_input regi_login_input_left">
+                </li>
+                <li class="regi_form_input noMargin">
+                  <i class="icon IconPwd"></i>
+                  <input type="password" tabindex="2" name="password" v-model="userPwd" placeholder="Password" class="regi_login_input regi_login_input_left login-input-no input_text" @keyup.enter="login">
+                </li>
+              </ul>
+
+            </div>
+            <div class="login-wrap">
+              <a href="javascript:;" class="btn-login" @click="login">登录</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="md-overlay" v-if="loginModalFlag" @click="loginModalFlag = false">
+      </div>
+
     </div>
 </template>
 <script>
-    export default{
-
+    import axios from 'axios'
+    export default {
+        data(){
+            return{
+                nickName:'',
+                userName:'',
+                userPwd:'',
+                loginModalFlag:false
+            }
+        },
+        methods:{
+            login(){
+                axios.post('/users/login',{
+                    userName:this.userName,
+                    userPwd:this.userPwd
+                }).then(result=>{
+                    let res = result.data;
+                    this.nickName = res.result.userName;
+                    this.loginModalFlag = false;
+                })
+            }
+        }
     }
 </script>
