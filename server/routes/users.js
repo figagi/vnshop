@@ -32,7 +32,7 @@ router.post('/login', function(req, res, next) {
 
             res.cookie("userName", doc.userName, {
                 path: '/',
-                maxAge: 1000 * 60 * 60
+                maxAge: 1000 * 60 * 60 * 24
             })
 
             if (doc) {
@@ -92,54 +92,65 @@ router.post("/cartList", function(req, res, next) {
     })
 })
 
+
+
 router.post('/cartEdit', function(req, res, next) {
     let userId = req.cookies.userId,
         productId = req.body.productId,
         checked = req.body.checked,
         productNum = req.body.productNum;
-
+    // console.log(productNum);
     User.update({ 'userId': userId, "cartList.productId": productId }, {
         "cartList.$.productNum": productNum,
         "cartList.$.checked": checked
     }, function(err, doc) {
-        if (err) {
+        console.log(doc);
+        if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
             res.json({
-                status: '1',
-                msg: err.message,
-                result: ''
-            })
-        } else {
-            res.json({
-                status: '0',
+                status: 0,
                 msg: '',
-                result: '添加购物车成功'
+                result: '修改购物车商品成功'
+            })
+        }
+    })
+
+})
+
+router.post('/editCheckAll', function(req, res, next) {
+    let userId = req.cookies.userId,
+        checkAll = req.body.checkAll;
+    User.findOne({ 'userId': userId }, function(err, user) {
+        if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
+            user.cartList.forEach(item => {
+                item.checked = checkAll;
+            })
+
+            user.save(function(err1, doc1) {
+                if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
+                    res.json({ status: '0', msg: '', result: '操作成功' });
+                }
             })
         }
     })
 })
 
-
-// router.post('/cartEdit', function(req, res, next) {
-//     let userId = req.cookies.userId,
-//         productId = req.body.productId,
-//         productNum = req.body.productNum;
-//     // console.log(productNum);
-//     User.update({ 'userId': userId, "productId": productId }, {
-//         "cartList.$.productNum": productNum
-//     }, function(err, doc) {
-//         console.log(doc);
-//         if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
-//             res.json({
-//                 status: 0,
-//                 msg: '',
-//                 result: '修改购物车商品成功'
-//             })
-//         }
-//     })
-
-// })
-
-router.post('/editCheckAll', function(req, res, next) {
-
+router.post('/cartDel', function(req, res, next) {
+    var userId = req.cookies.userId,
+        productId = req.body.productId;
+    User.update({
+        userId: userId
+    }, {
+        $pull: {
+            'cartList': {
+                'productId': productId
+            }
+        }
+    }, function(err, doc) {
+        if (err) {
+            res.json({ status: 1, msg: err.message, result: '' })
+        } else {
+            res.json({ status: 0, msg: '', result: '商品删除成功' })
+        }
+    })
 })
 module.exports = router;

@@ -89,7 +89,7 @@
                             </div>
                             <div class="cart-tab-5">
                                 <div class="cart-item-opration">
-                                    <a href="javascript:;" class="item-edit-btn">
+                                    <a href="javascript:;" class="item-edit-btn" @click="delCartConfirm(item)">
                                         <svg class="icon icon-del">
                     <use xlink:href="#icon-del"></use>
                   </svg>
@@ -104,8 +104,8 @@
                 <div class="cart-foot-inner">
                     <div class="cart-foot-l">
                         <div class="item-all-check">
-                            <a href="javascipt:;" @click="toggleCheckAll">
-                                <span class="checkbox-btn item-check-btn">
+                            <a href="javascipt:;"  @click="toggleCheckAll" >
+                                <span class="checkbox-btn item-check-btn" :class="{'check':checkedAllFlag}">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
                   </span>
                                 <span>Select all</span>
@@ -114,7 +114,7 @@
                     </div>
                     <div class="cart-foot-r">
                         <div class="item-total">
-                            Item total: <span class="total-price">500</span>
+                            Item total: <span class="total-price">{{totalPrice}}</span>
                         </div>
                         <div class="btn-wrap">
                             <a class="btn btn--red">Checkout</a>
@@ -124,16 +124,29 @@
             </div>
         </div>
     </div>
+    <nav-footer/>
+    <modal :mdShow="modalConfirm">
+        <div slot="message">
+            你确定要删除这个商品吗？
+        </div>
+        <div slot="btnGroup">
+            <a href="javascript:;" class="btn btn--m" @click="cartDel"> 确定</a>
+            <a href="javascript:;" class="btn btn--m" @click="modalConfirm = false"> 关闭</a>
+        </div>
+    </modal>
   </div>
 </template>
 <script>
     import NavHeader from '@/components/Header'
     import NavFooter from '@/components/Footer'
     import NavBread from '@/components/NavBread'
+    import Modal from '@/components/modal'
     export default {
         data(){
             return{
-                cartList:''
+                cartList:'',
+                modalConfirm:false,
+                productId:'',
             }
         },
         computed:{
@@ -149,12 +162,22 @@
             checkedAllFlag(){
                 // 当前选中的商品  和 购物车里面的所有商品对比
                 return this.checkedCount == this.cartList.length;
+            },
+            totalPrice(){
+                let money = 0;
+                this.cartList.forEach(item=>{
+                    if(item.checked == '1'){
+                        money += item.salePrice * item.productNum
+                    }
+                })
+                return money;
             }
         },
         components:{
             NavHeader,
             NavFooter,
-            NavBread
+            NavBread,
+            Modal
         },
         created(){
             this.getCartList()
@@ -180,7 +203,8 @@
                 }
                 this.$http.post('/users/cartEdit',{
                     productId:item.productId,
-                    productNum:item.productNum
+                    productNum:item.productNum,
+                    checked:item.checked
                 }).then(result=>{
                     console.log(result);
                     // alert(result.data.result);
@@ -193,9 +217,19 @@
                 this.cartList.forEach(item=>{
                     item.checked = flag ? 1 : 0;
                 })
-
-                this.$http.post('/users/editCheckAll',{checkAll:this.checkedAllFlag}).then(res=>{
+                this.$http.post('/users/editCheckAll',{checkAll:item.checked}).then(res=>{
                     console.log(res);
+                })
+            },
+            delCartConfirm(item){
+                this.productId = item.productId;
+                this.modalConfirm = true;
+            },
+            cartDel(){
+                this.$http.post('/users/cartDel',{productId:this.productId}).then(item=>{
+                    this.getCartList()
+                    this.modalConfirm = false;
+                    // alert('商品删除成功')
                 })
             }
         }

@@ -48,6 +48,23 @@
         </div>
     </div>
     <NavFooter/>
+    <!-- 在未登录的情况下 -->
+    <modal :mdShow="mdShow">
+        <p slot="message">请先登录，否则无法加入购物车</p>
+        <div slot="btnGroup">
+            <a href="javascript:;" class="btn  btn--m" @click="mdShow = false">关闭</a>
+        </div>
+    </modal>
+
+    <!-- 在登录的情况下 -->
+    <modal :mdShow="mdShowCart">
+        <p slot="message">加入购物车成功</p>
+        <div slot="btnGroup">
+            <a href="javascript:;" class="btn  btn--m" @click="mdShowCart = false">继续购物</a>
+            <router-link class="btn  btn--m" to="/cart">查看购物车列表</router-link>
+        </div>
+    </modal>
+
   </div>
 </template>
 
@@ -55,6 +72,7 @@
     import NavHeader from '@/components/Header'
     import NavFooter from '@/components/Footer'
     import NavBread from '@/components/NavBread'
+    import Modal from '@/components/Modal'
     import axios from 'axios'
     // import '../../static/css/base.css'
     // import '../../static/css/product.css'
@@ -62,7 +80,8 @@
         components:{
             NavHeader,
             NavFooter,
-            NavBread
+            NavBread,
+            Modal
         },
         data(){
             return {
@@ -73,6 +92,8 @@
                 busy: true,
                 page:1,
                 pageSize:8,
+                mdShowCart:false,
+                mdShow:false,
                 priceFilter:[
                     {
                         startPrice:'0',
@@ -143,8 +164,10 @@
             addCart(productId){
                 axios.post('/goods/addCart',{productId:productId}).then(res=>{
                     console.log(res.data);
-                    if(res.data.status == 0){
-                        alert(res.data.result);
+                    if(res.data.status == 1){
+                        this.mdShow = true;
+                    }else{
+                        this.mdShowCart = true;
                     }
                 })
             }
