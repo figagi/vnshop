@@ -77,9 +77,9 @@
                                 <div class="item-quantity">
                                     <div class="select-self select-self-open">
                                         <div class="select-self-area">
-                                            <a class="input-sub">-</a>
+                                            <a class="input-sub" @click="editCart('minu',item)">-</a>
                                             <span class="select-ipt">{{item.productNum}}</span>
-                                            <a class="input-add">+</a>
+                                            <a class="input-add" @click="editCart('add',item)">+</a>
                                         </div>
                                     </div>
                                 </div>
@@ -104,7 +104,7 @@
                 <div class="cart-foot-inner">
                     <div class="cart-foot-l">
                         <div class="item-all-check">
-                            <a href="javascipt:;">
+                            <a href="javascipt:;" @click="toggleCheckAll">
                                 <span class="checkbox-btn item-check-btn">
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"/></svg>
                   </span>
@@ -136,6 +136,21 @@
                 cartList:''
             }
         },
+        computed:{
+            // 购物车被选中的数量
+            checkedCount(){
+                var i = 0;
+                this.cartList.forEach(item=>{
+                    if(item.checked == '1') i++;
+                })
+                return i;
+            },
+            // 判断是否全选
+            checkedAllFlag(){
+                // 当前选中的商品  和 购物车里面的所有商品对比
+                return this.checkedCount == this.cartList.length;
+            }
+        },
         components:{
             NavHeader,
             NavFooter,
@@ -149,6 +164,37 @@
                 this.$http.post('/users/cartList').then(result=>{
                     let res = result.data;
                     this.cartList = res.result;
+                    console.log(res);
+                })
+            },
+            editCart(flag,item){
+                if(flag == 'minu'){
+                    if(item.productNum <= 1){
+                        return;
+                    }
+                    item.productNum --;
+                }else if(flag == 'add'){
+                    item.productNum ++;
+                }else{
+                    item.checked = item.checked == '1' ? 0 : 1; 
+                }
+                this.$http.post('/users/cartEdit',{
+                    productId:item.productId,
+                    productNum:item.productNum
+                }).then(result=>{
+                    console.log(result);
+                    // alert(result.data.result);
+                })
+
+            },
+            toggleCheckAll(){
+                let flag = !this.checkedAllFlag;
+
+                this.cartList.forEach(item=>{
+                    item.checked = flag ? 1 : 0;
+                })
+
+                this.$http.post('/users/editCheckAll',{checkAll:this.checkedAllFlag}).then(res=>{
                     console.log(res);
                 })
             }
