@@ -153,4 +153,15 @@ router.post('/cartDel', function(req, res, next) {
         }
     })
 })
+
+router.get('/addressList', function(req, res, next) {
+    var userId = req.cookies.userId;
+    User.findOne({ userId: userId }, function(err, doc) {
+        if (err) {
+            res.json({ status: 1, msg: err.message, result: '' })
+        } else {
+            res.json({ status: 0, msg: '', result: doc.addressList })
+        }
+    })
+})
 module.exports = router;

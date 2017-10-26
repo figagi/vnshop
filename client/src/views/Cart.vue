@@ -117,7 +117,7 @@
                             Item total: <span class="total-price">{{totalPrice}}</span>
                         </div>
                         <div class="btn-wrap">
-                            <a class="btn btn--red">Checkout</a>
+                            <a class="btn btn--red" @click="checkout">结账</a>
                         </div>
                     </div>
                 </div>
@@ -231,6 +231,15 @@
                     this.modalConfirm = false;
                     // alert('商品删除成功')
                 })
+            },
+            checkout(){
+                if(this.checkedCount > 0){
+                    this.$router.push({
+                        path:'/address'
+                    })
+                }else{
+                    alert('购物车，必须有选中的商品！才能去结账')
+                }
             }
         }
     }
