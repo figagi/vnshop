@@ -6,8 +6,8 @@ var Goods = require('../models/goods');
 var User = require('../models/user');
 
 // 连接数据库
-// mongoose.connect('mongodb://47.93.231.75:27017/shop');
-mongoose.connect('mongodb://localhost:27017/shop');
+mongoose.connect('mongodb://47.93.231.75:27017/shop');
+// mongoose.connect('mongodb://localhost:27017/shop');
 
 mongoose.connection.on('connected', function() {
     console.log("Mongodb connected success");

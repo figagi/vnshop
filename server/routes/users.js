@@ -95,22 +95,49 @@ router.post("/cartList", function(req, res, next) {
 router.post('/cartEdit', function(req, res, next) {
     let userId = req.cookies.userId,
         productId = req.body.productId,
+        checked = req.body.checked,
         productNum = req.body.productNum;
-    // console.log(productNum);
-    User.update({ 'userId': userId, "productId": productId }, {
-        "cartList.$.productNum": productNum
+
+    User.update({ 'userId': userId, "cartList.productId": productId }, {
+        "cartList.$.productNum": productNum,
+        "cartList.$.checked": checked
     }, function(err, doc) {
-        console.log(doc);
-        if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
+        if (err) {
             res.json({
-                status: 0,
+                status: '1',
+                msg: err.message,
+                result: ''
+            })
+        } else {
+            res.json({
+                status: '0',
                 msg: '',
-                result: '修改购物车商品成功'
+                result: '添加购物车成功'
             })
         }
     })
-
 })
+
+
+// router.post('/cartEdit', function(req, res, next) {
+//     let userId = req.cookies.userId,
+//         productId = req.body.productId,
+//         productNum = req.body.productNum;
+//     // console.log(productNum);
+//     User.update({ 'userId': userId, "productId": productId }, {
+//         "cartList.$.productNum": productNum
+//     }, function(err, doc) {
+//         console.log(doc);
+//         if (err) { res.json({ status: '1', msg: err.message, result: '' }) } else {
+//             res.json({
+//                 status: 0,
+//                 msg: '',
+//                 result: '修改购物车商品成功'
+//             })
+//         }
+//     })
+
+// })
 
 router.post('/editCheckAll', function(req, res, next) {
 
