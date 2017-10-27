@@ -58,7 +58,7 @@
       <div class="addr-list-wrap">
         <div class="addr-list">
           <ul>
-            <li v-for="(item,index) in addressList" :key="index">
+            <li v-for="(item,index) in addressList" :key="index" :class="{'check':checkIndex == index}" @click="checkIndex = index;selectAddressId = item.addressId">
               <dl>
                 <dt>{{item.userName}}</dt>
                 <dd class="address">{{item.streetName}}</dd>
@@ -70,9 +70,9 @@
                 </a>
               </div>
               <div class="addr-opration addr-set-default">
-                <a href="javascript:;" class="addr-set-default-btn"><i>Set default</i></a>
+                <a href="javascript:;" class="addr-set-default-btn" v-if="!item.isDefault" @click="setDefault(item.addressId)"><i>设置默认地址</i></a>
               </div>
-              <div class="addr-opration addr-default">Default address</div>
+              <div class="addr-opration addr-default" v-if="item.isDefault">默认地址</div>
             </li>
             <li class="addr-new">
               <div class="add-new-inner">
@@ -117,7 +117,8 @@
         </div>
       </div>
       <div class="next-btn-wrap">
-        <a class="btn btn--m btn--red">Next</a>
+        <router-link class="btn btn--m btn--red" :to="{path:'orderConfirm',query:{'addressId':selectAddressId}}">下一步</router-link>
+        <!-- <a class="btn btn--m btn--red">下一步</a> -->
       </div>
     </div>
   </div>
@@ -129,17 +130,17 @@
     import NavHeader from '@/components/Header'
     import NavFooter from '@/components/Footer'
     import NavBread from '@/components/NavBread'
-    import Modal from '@/components/modal'
     export default {
         components:{
             NavHeader,
             NavFooter,
-            NavBread,
-            Modal
+            NavBread
         },
         data(){
             return{
-                addressList:''
+                addressList:'',
+                checkIndex:'',
+                selectAddressId:''
             }
         },
         created(){
@@ -150,6 +151,15 @@
                 this.$http.get('/users/addressList').then(res=>{
                     this.addressList = res.data.result;
                 })
+            },
+            setDefault(addressId){
+              this.$http.post('/users/setDefault',{
+                addressId:addressId
+              }).then(res=>{
+                if(res.data.status == '0'){
+                  this.getAddressList();
+                }
+              })
             }
         }
     }

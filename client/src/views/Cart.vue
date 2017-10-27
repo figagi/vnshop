@@ -140,7 +140,7 @@
     import NavHeader from '@/components/Header'
     import NavFooter from '@/components/Footer'
     import NavBread from '@/components/NavBread'
-    import Modal from '@/components/modal'
+    import Modal from '@/components/Modal'
     export default {
         data(){
             return{
@@ -179,7 +179,7 @@
             NavBread,
             Modal
         },
-        created(){
+        mounted(){
             this.getCartList()
         },
         methods:{
