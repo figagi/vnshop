@@ -5,7 +5,7 @@ import GoodsList from '@/views/GoodsList';
 import Cart from '@/views/Cart';
 import Address from '@/views/Address';
 import OrderConfirm from '@/views/OrderConfirm';
-import orderSuccess from '@/views/orderSuccess';
+import orderSuccess from '@/views/OrderSuccess';
 
 Vue.use(Router);
 
