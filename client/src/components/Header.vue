@@ -52,7 +52,7 @@
       <div class="md-modal modal-msg md-modal-transition " :class="{'md-show':loginModalFlag}">
         <div class="md-modal-inner">
           <div class="md-top">
-            <div class="md-title" >登录</div>
+            <div class="md-title" >用户登录</div>
             <button class="md-close" @click="loginModalFlag = false">关闭</button>
           </div>
           <div class="md-content">
