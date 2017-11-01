@@ -37,7 +37,7 @@
             </div>
             <div class="topbar-info J_userInfo" id="ECS_MEMBERZONE">
                 <span v-text="nickName" > </span>
-                <a class="link"  rel="nofollow" v-if="!nickName" @click="loginModalFlag = true">登录</a>
+                <a class="link"  rel="nofollow" v-if="!nickName" @click="loginModalFlag = true">用户登录</a>
                 <span class="sep" v-if="nickName">|</span>
                 <a class="link" @click="logout" v-if="nickName" rel="nofollow">退出</a>
             </div>
