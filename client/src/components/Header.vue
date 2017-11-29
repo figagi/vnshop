@@ -10,7 +10,7 @@
                         <a class="btn-category-list" href="catalog.php" style="display:none;">全部商品分类</a>
                     </li>
                     <li class="nav-item">
-                        <a class="link" href="category.php?id=76"><span>电子产品</span></a>
+                        <a class="link" href="category.php?id=76"><span>电子产品哈哈</span></a>
                         <div class='item-children'>
                             <div class="container">
                                 <ul class="children-list clearfix">
