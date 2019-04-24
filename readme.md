@@ -1,6 +1,6 @@
 # vnshop 商城
 技术栈： vue mongodb node 
-![2019-04-24-23-30-32](http://s.shudong.wang/2019-04-24-23-30-32.png)
+![2019-04-24-23-30-32](http://s.shudong.wang/aaa.jpg)
 > 课程视频，可以联系我
 
 ## 项目架构
