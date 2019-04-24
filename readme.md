@@ -1,4 +1,8 @@
 # vnshop 商城
+技术栈： vue mongodb node 
+![2019-04-24-23-30-32](http://s.shudong.wang/2019-04-24-23-30-32.png)
+> 课程视频，可以联系我
+
 ## 项目架构
 前后分离
 
@@ -12,22 +16,44 @@ api：
 cd vnshop
 mkdir -p client note server
 
-vnshop
+#### vnshop
     client #客户端代码，里面放的是vue项目工程文件
 
     note #搭建项目的详细笔记
         
     server #node express 代码
 
-
+## 项目上线 视频上传到segmentfault 讲堂
+* 01.购买流行的vps服务器教程
+* 02.域名注册
+* 03.域名注册商介绍godaddy.com域名注册，park.io等信息
+* 04.利用xshell连接Linux Ubuntu系统详细操作方式
+* 05.【全栈项目上线（vue+node+mongodb）】安装lnmp环境 nginx mysql php 环境
+* 06.lnmp环境安装成功并且测试
+* 07.nodejs环境安装
+* 08.安装mongodb
+* 09.mongodb安装测试执行mongodb shell命令
+* 10.解决无法解析主机名字问题
+* 11.mongodb通用解决方案
+* 12.缩减版的安装php mysql Nginx node mongodb 6分钟搞定
+* 13.部署项目的方式，介绍
+* 14.怎么在一台服务器上部署多个站点
+* 15.项目上线方案一上传文件解压文件实现
+* 16.项目上线方案二从github拉取
+* 17.项目上线完毕
+* 18.负载均衡的概念
+* 19.使用git webhooks 优雅的自动化上线vue项目（巨详细） 
+* 20.git webhooks 自动化上线
+* 21.搭建博客系统WordPress
+* 22.搭建hexo博客
 # daylog
 
-## day1：2017年10月21日 09:15:03 
+## day1 
     00.项目初始化
     01.vue常见错误收集
     02.初始化商品组件，拆分头部，底部组件
     03.使用mock数据，配合本地的express把商品列表渲染出来
-## day2：2017年10月23日 09:15:03
+## day2
     01.让学员把自己的商城项目提交到github的vnshop项目的issue方便查看
     02.复习上周讲的商品组件
     03.使用vue-lazyload插件实现图片懒加载   
@@ -164,27 +190,3 @@ vnshop
     93 封装全局模态框组件.购物车判断登录与未登录情况的弹出不同模态框 
     94 在购物车列表页面去结账 
     95 .地址列表页面渲染
-    
-项目上线
-01.购买流行的vps服务器教程
-02.域名注册
-03.godaddy.com域名注册，park.io等信息
-04.利用xshell连接Linux Ubuntu系统详细操作方式
-05.【全栈项目上线（vue+node+mongodb）】安装lnmp环境 nginx mysql php 环境
-06.lnmp环境安装成功并且测试
-07.nodejs环境安装
-08.安装mongodb
-09.mongodb安装测试执行mongodb shell命令
-10.解决无法解析主机名字问题
-11.mongodb通用解决方案
-12.缩减版的安装php mysql Nginx node mongodb 6分钟搞定
-13.部署项目的方式，介绍
-14.怎么在一台服务器上部署多个站点
-15.项目上线方案一上传文件解压文件实现
-16.项目上线方案二从github拉取
-17.项目上线完毕
-18.负载均衡的概念
-19.使用git webhooks 优雅的自动化上线vue项目（巨详细） 
-20.git webhooks 自动化上线
-21.搭建博客系统WordPress
-22.搭建hexo博客
